@@ -28,7 +28,7 @@ public class UCDBApplication {
 	}
 	
 	@Bean
-	public FilterRegistrationBean corsFilter2() {
+	public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
 		config.addAllowedMethod("*");

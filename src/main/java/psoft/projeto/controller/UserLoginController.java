@@ -24,7 +24,6 @@ public class UserLoginController {
 	private UserService userService;
 	
 	@PostMapping(value = "/")
-	@ResponseBody
 	public ResponseEntity<Usuario> create(@RequestBody Usuario user) throws UserAlreadyExistsException {
 		Usuario existingUser = userService.findByLogin(user.getLogin());
 
@@ -59,7 +58,6 @@ public class UserLoginController {
 	}
 	
 	@RequestMapping(value = "/withID")
-	@ResponseBody
 	public ResponseEntity<List<String>> usersWithID(@RequestBody List<Long> userIDs) throws UserAlreadyExistsException {
 		List<String> result = new ArrayList<String>(userIDs.size());
 		

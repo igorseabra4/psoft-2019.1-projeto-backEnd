@@ -1,5 +1,6 @@
 package psoft.projeto.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,7 @@ public class CourseController {
 	@Autowired
 	private CourseService courseService;
 
-	@RequestMapping(value = "/")
-	@ResponseBody
+	@RequestMapping(value = "")
 	public ResponseEntity<List<Course>> findAll() {
 		List<Course> courses = courseService.findAll();
 		
@@ -36,8 +36,18 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
 	
+	@RequestMapping(value = "/a")
+	public ResponseEntity<List<String>> asd() {
+		List<String> courses = new ArrayList<String>();
+
+		courses.add("hi");
+		courses.add("hi");
+		courses.add("hi");
+		
+		return new ResponseEntity<List<String>>(courses, HttpStatus.CREATED);
+	}
+	
 	@RequestMapping(value = "/rank")
-	@ResponseBody
 	public ResponseEntity<List<Course>> findAllRank() {
 		List<Course> courses = courseService.findAllRank();
 		
@@ -48,7 +58,6 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/substring")
-	@ResponseBody
 	public ResponseEntity<List<Course>> findAllSubstring(@RequestBody String substring) {
 		List<Course> courses = courseService.findAll(substring);
 		
@@ -59,7 +68,6 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/profile/{id}")
-	@ResponseBody
 	public ResponseEntity<Course> findProfile(@PathVariable Long id) throws CourseNotFoundException {
 		Course course = courseService.findByID(id);
 		
