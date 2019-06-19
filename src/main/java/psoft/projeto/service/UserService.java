@@ -3,7 +3,7 @@ package psoft.projeto.service;
 import org.springframework.stereotype.Service;
 
 import psoft.projeto.dao.UserDAO;
-import psoft.projeto.model.User;
+import psoft.projeto.model.Usuario;
 
 @Service
 public class UserService {
@@ -13,15 +13,15 @@ public class UserService {
 		this.userDAO = userDAO;
 	}
 	
-	public User create(User user) {
+	public Usuario create(Usuario user) {
 		return userDAO.save(user);
 	}
 
-	public User findByLogin(String login) {
+	public Usuario findByLogin(String login) {
 		return userDAO.findByLogin(login);
 	}
 
-	public User findByID(Long id) {
+	public Usuario findByID(Long id) {
 		return userDAO.findById(id).get();
 	}
 }

@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import psoft.projeto.model.User;
+import psoft.projeto.model.Usuario;
 
 @Repository
-public interface UserDAO extends JpaRepository<User, Long> {
-	User save(User user);
+public interface UserDAO extends JpaRepository<Usuario, Long> {
+	Usuario save(Usuario user);
 
 	@Query(value="Select u from User u where u.login=:plogin")
-	User findByLogin(@Param("plogin") String id);
+	Usuario findByLogin(@Param("plogin") String id);
 	
 	@Query(value="Select u from User u where u.id=:pid")
-	Optional<User> findById(@Param("pid") Long id);
+	Optional<Usuario> findById(@Param("pid") Long id);
 }

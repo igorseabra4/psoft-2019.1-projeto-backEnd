@@ -12,7 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import psoft.projeto.exception.UserAlreadyExistsException;
 import psoft.projeto.exception.UserNotFoundException;
-import psoft.projeto.model.User;
+import psoft.projeto.model.Usuario;
 import psoft.projeto.service.UserService;
 
 @RestController
@@ -25,23 +25,23 @@ public class UserLoginController {
 	
 	@PostMapping(value = "/")
 	@ResponseBody
-	public ResponseEntity<User> create(@RequestBody User user) throws UserAlreadyExistsException {
-		User existingUser = userService.findByLogin(user.getLogin());
+	public ResponseEntity<Usuario> create(@RequestBody Usuario user) throws UserAlreadyExistsException {
+		Usuario existingUser = userService.findByLogin(user.getLogin());
 
 		if (existingUser != null)
 			throw new UserAlreadyExistsException("Usuario ja existe");
 		
-		User newUser = userService.create(user);
+		Usuario newUser = userService.create(user);
 		
 		if (newUser == null)
 			throw new InternalError("Something went wrong");
 		
-		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+		return new ResponseEntity<Usuario>(newUser, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/login")
-	public LoginResponse authenticate(@RequestBody User user) throws UserNotFoundException {
-		User authUser = userService.findByLogin(user.getLogin());
+	public LoginResponse authenticate(@RequestBody Usuario user) throws UserNotFoundException {
+		Usuario authUser = userService.findByLogin(user.getLogin());
 		
 		if (authUser == null)
 			throw new UserNotFoundException("Usuario nao encontrado");
@@ -64,7 +64,7 @@ public class UserLoginController {
 		List<String> result = new ArrayList<String>(userIDs.size());
 		
 		for (Long l : userIDs) {
-			User user = userService.findByID(l);
+			Usuario user = userService.findByID(l);
 			if (user != null)
 				result.add(user.getName());
 		}
