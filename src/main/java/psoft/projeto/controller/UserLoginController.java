@@ -25,7 +25,7 @@ public class UserLoginController {
 	
 	@PostMapping(value = "/")
 	public ResponseEntity<Usuario> create(@RequestBody Usuario user) throws UserAlreadyExistsException {
-		Usuario existingUser = userService.findByLogin(user.getLogin());
+		Usuario existingUser = userService.findByEmail(user.getEmail());
 
 		if (existingUser != null)
 			throw new UserAlreadyExistsException("Usuario ja existe");
@@ -40,7 +40,7 @@ public class UserLoginController {
 	
 	@PostMapping("/login")
 	public LoginResponse authenticate(@RequestBody Usuario user) throws UserNotFoundException {
-		Usuario authUser = userService.findByLogin(user.getLogin());
+		Usuario authUser = userService.findByEmail(user.getEmail());
 		
 		if (authUser == null)
 			throw new UserNotFoundException("Usuario nao encontrado");
@@ -49,7 +49,7 @@ public class UserLoginController {
 			throw new UserNotFoundException("Senha invalida");
 		
 		String token = Jwts.builder().
-				setSubject(authUser.getLogin()).
+				setSubject(authUser.getEmail()).
 				signWith(SignatureAlgorithm.HS512, TOKEN_KEY).
 				setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // 5 minute
 				.compact();
@@ -58,7 +58,7 @@ public class UserLoginController {
 	}
 	
 	@RequestMapping(value = "/withID")
-	public ResponseEntity<List<String>> usersWithID(@RequestBody List<Long> userIDs) throws UserAlreadyExistsException {
+	public ResponseEntity<List<String>> usersWithID(@RequestBody List<Long> userIDs) {
 		List<String> result = new ArrayList<String>(userIDs.size());
 		
 		for (Long l : userIDs) {
@@ -67,7 +67,7 @@ public class UserLoginController {
 				result.add(user.getName());
 		}
 		
-		return new ResponseEntity<List<String>>(result, HttpStatus.CREATED);
+		return new ResponseEntity<List<String>>(result, HttpStatus.OK);
 	}
 	
 	private class LoginResponse {

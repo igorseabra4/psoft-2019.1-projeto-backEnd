@@ -14,17 +14,17 @@ public class Usuario {
 
 	private String firstName;
 	private String lastName;
-	private String login;
+	private String email;
 	private String password;
 	
 	public Usuario() {
 		
 	}
 	
-	public Usuario(String firstName, String lastName, String login, String password) {
+	public Usuario(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.login = login;
+		this.email = email;
 		this.password = password;
 	}
 
@@ -44,8 +44,8 @@ public class Usuario {
 		return firstName + " " + lastName;
 	}
 	
-	public String getLogin() {
-		return login;
+	public String getEmail() {
+		return email;
 	}
 	
 	public String getPassword() {

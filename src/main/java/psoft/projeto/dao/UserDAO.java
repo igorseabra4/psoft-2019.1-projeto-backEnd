@@ -13,8 +13,8 @@ import psoft.projeto.model.Usuario;
 public interface UserDAO extends JpaRepository<Usuario, Long> {
 	Usuario save(Usuario user);
 
-	@Query(value="Select u from Usuario u where u.login=:plogin")
-	Usuario findByLogin(@Param("plogin") String id);
+	@Query(value="Select u from Usuario u where u.email=:plogin")
+	Usuario findByEmail(@Param("plogin") String id);
 	
 	@Query(value="Select u from Usuario u where u.id=:pid")
 	Optional<Usuario> findById(@Param("pid") Long id);
