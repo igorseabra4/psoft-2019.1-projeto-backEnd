@@ -23,4 +23,16 @@ public class RestExceptionHandler {
        CustomRestError errorMessage = new CustomRestError(new Date(), ex.getMessage(), request.getDescription(false));
        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
    }
+
+   @ExceptionHandler({UserAlreadyExistsException.class, })
+   public ResponseEntity<CustomRestError> alreadyExists(Exception ex, WebRequest request) {
+       CustomRestError errorMessage = new CustomRestError(new Date(), ex.getMessage(), request.getDescription(false));
+       return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.CONFLICT);
+   }
+
+   @ExceptionHandler({IllegalArgumentException.class, })
+   public ResponseEntity<CustomRestError> invalidFields(Exception ex, WebRequest request) {
+       CustomRestError errorMessage = new CustomRestError(new Date(), ex.getMessage(), request.getDescription(false));
+       return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.EXPECTATION_FAILED);
+   }
 }

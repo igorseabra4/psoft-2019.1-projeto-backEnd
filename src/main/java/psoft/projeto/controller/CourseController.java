@@ -36,17 +36,6 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/a")
-	public ResponseEntity<List<String>> asd() {
-		List<String> courses = new ArrayList<String>();
-
-		courses.add("hi");
-		courses.add("hi");
-		courses.add("hi");
-		
-		return new ResponseEntity<List<String>>(courses, HttpStatus.CREATED);
-	}
-	
 	@RequestMapping(value = "/rank")
 	public ResponseEntity<List<Course>> findAllRank() {
 		List<Course> courses = courseService.findAllRank();
