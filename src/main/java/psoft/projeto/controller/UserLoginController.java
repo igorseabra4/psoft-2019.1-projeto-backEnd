@@ -28,7 +28,7 @@ public class UserLoginController {
 		Usuario existingUser = userService.findByEmail(user.getEmail());
 
 		if (existingUser != null)
-			throw new UserAlreadyExistsException("Usuario ja existe");
+			throw new UserAlreadyExistsException("Já existe um usuário com o e-mail especificado. Por favor, insira outro e-mail.");
 		
 		Usuario newUser = userService.create(user);
 		
@@ -38,15 +38,15 @@ public class UserLoginController {
 		return new ResponseEntity<Usuario>(newUser, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/login")
-	public LoginResponse authenticate(@RequestBody Usuario user) throws UserNotFoundException {
+	@RequestMapping(value = "/login", produces = "application/json", method=RequestMethod.POST)
+	public ResponseEntity<LoginResponse> authenticate(@RequestBody Usuario user) throws UserNotFoundException {
 		Usuario authUser = userService.findByEmail(user.getEmail());
 		
 		if (authUser == null)
-			throw new UserNotFoundException("Usuario nao encontrado");
+			throw new UserNotFoundException("Não foi encontrado usuário com o e-mail especificado. Por favor, insira um e-mail válido.");
 		
 		if (!authUser.getPassword().equals(user.getPassword()))
-			throw new UserNotFoundException("Senha invalida");
+			throw new UserNotFoundException("Senha inválida para o usuário especificado.");
 		
 		String token = Jwts.builder().
 				setSubject(authUser.getEmail()).
@@ -54,7 +54,7 @@ public class UserLoginController {
 				setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // 5 minute
 				.compact();
 		
-		return new LoginResponse(token);
+		return new ResponseEntity<LoginResponse>(new LoginResponse(token), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/withID")
