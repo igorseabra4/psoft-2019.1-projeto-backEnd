@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import psoft.projeto.service.helpers.DeleteCommentData;
+
 @Entity
 public class Course {
 	@Id
@@ -54,7 +56,7 @@ public class Course {
 	public int getLikeCount() {
 		return likedUserIDs.size();
 	}
-		
+	
 	public void addGrade(Long userID, float grade) {
 		grades.put(userID, grade);
 	}
@@ -76,9 +78,20 @@ public class Course {
 	public void addComment(CourseComment comment) {
 		comments.add(comment);
 	}
+
+	public void deleteComment(DeleteCommentData data) {
+		for (CourseComment c : comments)
+			if (c.getID() == data.commentID && c.getUserID() == data.userID)
+				c.delete();
+	}
 	
 	public ArrayList<CourseComment> getComments(){
 		return comments;
+	}
+	
+	public void emptyDeletedComments() {
+		for (CourseComment c : comments)
+			c.emptyIfDeleted();
 	}
 
 	@Override

@@ -15,12 +15,18 @@ public class CourseComment {
 	private String comment;
 	private long parentCommentID;
 	private Date date;
+	private boolean deleted;
 	
 	public CourseComment(Long userID, String comment, Long parentCommentID) {
 		this.userID = userID;
 		this.comment = comment;
 		this.parentCommentID = parentCommentID;
 		this.date = new Date();
+		this.deleted = false;
+	}
+	
+	public long getID() {
+		return id;
 	}
 	
 	public long getUserID() {
@@ -37,6 +43,19 @@ public class CourseComment {
 	
 	public long getParentCommentID() {
 		return parentCommentID;
+	}
+	
+	public void delete() {
+		deleted = true;
+	}
+	
+	public boolean getDeleted() {
+		return deleted;
+	}
+	
+	public void emptyIfDeleted() {
+		if (deleted)
+			comment = "";
 	}
 
 	@Override

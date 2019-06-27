@@ -10,6 +10,7 @@ import psoft.projeto.exception.CourseNotFoundException;
 import psoft.projeto.model.Course;
 import psoft.projeto.model.CourseComment;
 import psoft.projeto.service.CourseService;
+import psoft.projeto.service.helpers.DeleteCommentData;
 import psoft.projeto.service.helpers.GradeData;
 
 @RestController
@@ -32,6 +33,9 @@ public class CourseController {
 		if (courses == null)
 			throw new InternalError("Something went wrong");
 		
+		for (Course c : courses)
+			c.emptyDeletedComments();
+		
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
 	
@@ -41,6 +45,9 @@ public class CourseController {
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
+
+		for (Course c : courses)
+			c.emptyDeletedComments();
 		
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
@@ -51,6 +58,9 @@ public class CourseController {
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
+
+		for (Course c : courses)
+			c.emptyDeletedComments();
 		
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
@@ -61,8 +71,10 @@ public class CourseController {
 		
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
+
+		course.emptyDeletedComments();
 		
-		return new ResponseEntity<Course>(course, HttpStatus.CREATED);
+		return new ResponseEntity<Course>(course, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/profile/{id}/like")
@@ -83,5 +95,10 @@ public class CourseController {
 	@PutMapping(value = "/profile/{id}/comment")
 	public void addComment(@PathVariable Long id, @RequestBody CourseComment data) throws CourseNotFoundException {
 		courseService.addComment(id, data);
+	}
+	
+	@DeleteMapping(value = "/profile/{id}/comment")
+	public void removeComment(@PathVariable Long id, @RequestBody DeleteCommentData data) throws CourseNotFoundException {
+		courseService.removeComment(id, data);
 	}
 }
