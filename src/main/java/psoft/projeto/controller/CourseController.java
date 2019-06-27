@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import psoft.projeto.exception.CourseNotFoundException;
 import psoft.projeto.model.Course;
 import psoft.projeto.model.CourseComment;
+import psoft.projeto.model.CourseSimple;
 import psoft.projeto.service.CourseService;
 import psoft.projeto.service.helpers.DeleteCommentData;
 import psoft.projeto.service.helpers.GradeData;
@@ -27,29 +28,23 @@ public class CourseController {
 	private CourseService courseService;
 
 	@RequestMapping(value = "")
-	public ResponseEntity<List<Course>> findAll() {
-		List<Course> courses = courseService.findAll();
+	public ResponseEntity<List<CourseSimple>> findAll() {
+		List<CourseSimple> courses = courseService.findAll();
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
 		
-		for (Course c : courses)
-			c.emptyDeletedComments();
-		
-		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
+		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/substring")
-	public ResponseEntity<List<Course>> findAllSubstring(@RequestParam(name="str", required=false, defaultValue="") String substring) {
-		List<Course> courses = courseService.findAll(substring);
+	public ResponseEntity<List<CourseSimple>> findAllSubstring(@RequestParam(name="str", required=false, defaultValue="") String substring) {
+		List<CourseSimple> courses = courseService.findAll(substring);
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
-
-		for (Course c : courses)
-			c.emptyDeletedComments();
 		
-		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
+		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/rank")
@@ -58,9 +53,6 @@ public class CourseController {
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
-
-		for (Course c : courses)
-			c.emptyDeletedComments();
 		
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
@@ -71,8 +63,6 @@ public class CourseController {
 		
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
-
-		course.emptyDeletedComments();
 		
 		return new ResponseEntity<Course>(course, HttpStatus.OK);
 	}

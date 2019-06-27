@@ -15,6 +15,7 @@ import psoft.projeto.dao.CourseDAO;
 import psoft.projeto.exception.CourseNotFoundException;
 import psoft.projeto.model.Course;
 import psoft.projeto.model.CourseComment;
+import psoft.projeto.model.CourseSimple;
 import psoft.projeto.service.helpers.DeleteCommentData;
 
 @Service
@@ -55,22 +56,31 @@ public class CourseService {
 	}
 
 	public Course findByID(Long id) {
-		return courseDAO.findByID(id);
+		Course c = courseDAO.findByID(id);
+
+		c.emptyDeletedComments();
+		
+		return c;
 	}
 
-	public List<Course> findAll() {
-		return courseDAO.findAll();
+	public List<CourseSimple> findAll() {
+		List<CourseSimple> courses = new ArrayList<CourseSimple>((int) courseDAO.count());
+		
+		for (Course c : courseDAO.findAll())
+			courses.add(new CourseSimple(c.getId(), c.getName()));
+		
+		return courses;
 	}
 	
-	public List<Course> findAll(String substring) {
+	public List<CourseSimple> findAll(String substring) {
 		List<Course> all = courseDAO.findAll();
-		List<Course> result = new ArrayList<Course>(all.size());
+		List<CourseSimple> courses = new ArrayList<CourseSimple>(all.size());
 		
 		for (Course c : all)
 			if (normalize(c.getName()).contains(normalize(substring)))
-				result.add(c);
+				courses.add(new CourseSimple(c.getId(), c.getName()));
 
-		return result;
+		return courses;
 	}
 	
 	private static String normalize(String str) {
@@ -142,6 +152,7 @@ public class CourseService {
         });
 		all.sort(new Comparator<Course>() 
         {
+			@Override
 			public int compare(Course arg0, Course arg1) {
 				return (int) Math.ceil(arg1.getGrade() - arg0.getGrade());
 			}
@@ -153,6 +164,9 @@ public class CourseService {
 				return arg1.getLikeCount() - arg0.getLikeCount();
 			}
         });
+		
+		for (Course c : all)
+			c.emptyDeletedComments();
 		
 		return all;
 	}
