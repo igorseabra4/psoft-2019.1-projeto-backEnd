@@ -36,7 +36,7 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/substring")
-	public ResponseEntity<List<Course>> findAllSubstring(@RequestBody String substring) {
+	public ResponseEntity<List<Course>> findAllSubstring(@RequestParam(name="str", required=false, defaultValue="") String substring) {
 		List<Course> courses = courseService.findAll(substring);
 		
 		if (courses == null)
