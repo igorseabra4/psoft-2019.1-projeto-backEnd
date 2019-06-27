@@ -18,7 +18,8 @@ public class CourseController {
 	public static String[] getPrivatePatterns() {
 		return new String[] {
 				"/v1/courses/profile/*",
-				};
+				"/v1/courses/rank",
+		};
 	}
 	
 	@Autowired
@@ -34,9 +35,9 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/rank")
-	public ResponseEntity<List<Course>> findAllRank() {
-		List<Course> courses = courseService.findAllRank();
+	@RequestMapping(value = "/substring")
+	public ResponseEntity<List<Course>> findAllSubstring(@RequestBody String substring) {
+		List<Course> courses = courseService.findAll(substring);
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");
@@ -44,9 +45,9 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/substring")
-	public ResponseEntity<List<Course>> findAllSubstring(@RequestBody String substring) {
-		List<Course> courses = courseService.findAll(substring);
+	@RequestMapping(value = "/rank")
+	public ResponseEntity<List<Course>> findAllRank() {
+		List<Course> courses = courseService.findAllRank();
 		
 		if (courses == null)
 			throw new InternalError("Something went wrong");

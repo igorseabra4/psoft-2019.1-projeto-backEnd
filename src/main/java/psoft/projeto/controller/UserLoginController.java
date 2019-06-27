@@ -54,7 +54,7 @@ public class UserLoginController {
 				setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // 5 minute
 				.compact();
 		
-		return new ResponseEntity<LoginResponse>(new LoginResponse(token), HttpStatus.OK);
+		return new ResponseEntity<LoginResponse>(new LoginResponse(token, authUser.getId()), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/withID")
@@ -72,13 +72,19 @@ public class UserLoginController {
 	
 	private class LoginResponse {
 		public String token;
+		public Long userID;
 		
-		public LoginResponse(String token) {
+		public LoginResponse(String token, Long userID) {
 			this.token = token;
+			this.userID = userID;
 		}
 		
 		public String getToken() {
 			return token;
+		}
+		
+		public Long getUserID() {
+			return userID;
 		}
 	}
 }
