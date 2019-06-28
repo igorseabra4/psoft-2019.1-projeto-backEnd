@@ -69,6 +69,14 @@ public class CourseService {
 		for (Course c : courseDAO.findAll())
 			courses.add(new CourseSimple(c.getId(), c.getName()));
 		
+		courses.sort(new Comparator<CourseSimple>() 
+        {
+			@Override
+			public int compare(CourseSimple arg0, CourseSimple arg1) {
+				return (int) (arg1.id - arg0.id);
+			}
+        });
+		
 		return courses;
 	}
 	
