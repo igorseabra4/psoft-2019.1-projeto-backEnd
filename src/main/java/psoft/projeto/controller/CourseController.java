@@ -68,27 +68,37 @@ public class CourseController {
 	}
 	
 	@PutMapping(value = "/profile/{id}/like")
-	public void addLike(@PathVariable Long id, @RequestBody Long userID) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> addLike(@PathVariable Long id, @RequestBody Long userID) throws CourseNotFoundException {
 		courseService.addLike(id, userID);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/profile/{id}/like")
-	public void removeLike(@PathVariable Long id, @RequestBody Long userID) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> removeLike(@PathVariable Long id, @RequestBody Long userID) throws CourseNotFoundException {
 		courseService.removeLike(id, userID);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/profile/{id}/grade")
-	public void addGrade(@PathVariable Long id, @RequestBody GradeData data) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> addGrade(@PathVariable Long id, @RequestBody GradeData data) throws CourseNotFoundException {
 		courseService.addGrade(id, data.userID, data.grade);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/profile/{id}/comment")
-	public void addComment(@PathVariable Long id, @RequestBody CourseComment data) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> addComment(@PathVariable Long id, @RequestBody CourseComment data) throws CourseNotFoundException {
 		courseService.addComment(id, data);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/profile/{id}/comment")
-	public void removeComment(@PathVariable Long id, @RequestBody DeleteCommentData data) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> removeComment(@PathVariable Long id, @RequestBody DeleteCommentData data) throws CourseNotFoundException {
 		courseService.removeComment(id, data);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 }
