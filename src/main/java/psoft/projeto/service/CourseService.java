@@ -73,7 +73,7 @@ public class CourseService {
         {
 			@Override
 			public int compare(CourseSimple arg0, CourseSimple arg1) {
-				return (int) (arg1.id - arg0.id);
+				return (int) (arg0.id - arg1.id);
 			}
         });
 		
