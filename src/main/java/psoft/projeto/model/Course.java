@@ -1,6 +1,7 @@
 package psoft.projeto.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import javax.persistence.Entity;
@@ -58,6 +59,11 @@ public class Course {
 	}
 	
 	public void addGrade(Long userID, float grade) {
+		if (grade < 0)
+			grade = 0;
+		if (grade > 10)
+			grade = 10;
+		
 		grades.put(userID, grade);
 	}
 	
@@ -87,6 +93,17 @@ public class Course {
 	
 	public ArrayList<CourseComment> getComments(){
 		return comments;
+	}
+	
+	public void sortComments() {
+
+		comments.sort(new Comparator<CourseComment>() 
+        {
+			@Override
+			public int compare(CourseComment arg0, CourseComment arg1) {
+				return (int) (arg1.getParentCommentID() - arg0.getParentCommentID());
+			}
+        });
 	}
 	
 	public void emptyDeletedComments() {

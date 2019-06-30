@@ -34,7 +34,7 @@ public class CourseController {
 		if (courses == null)
 			throw new InternalError("Something went wrong");
 		
-		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.CREATED);
+		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/substring")
@@ -44,7 +44,7 @@ public class CourseController {
 		if (courses == null)
 			throw new InternalError("Something went wrong");
 		
-		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.CREATED);
+		return new ResponseEntity<List<CourseSimple>>(courses, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/rank")
@@ -54,7 +54,7 @@ public class CourseController {
 		if (courses == null)
 			throw new InternalError("Something went wrong");
 		
-		return new ResponseEntity<List<Course>>(courses, HttpStatus.CREATED);
+		return new ResponseEntity<List<Course>>(courses, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/profile/{id}")

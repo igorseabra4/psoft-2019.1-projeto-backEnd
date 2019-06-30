@@ -59,6 +59,7 @@ public class CourseService {
 		Course c = courseDAO.findByID(id);
 
 		c.emptyDeletedComments();
+		c.sortComments();
 		
 		return c;
 	}
