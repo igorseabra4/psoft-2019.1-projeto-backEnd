@@ -197,9 +197,6 @@ public class CourseService {
 
 			comment.delete();
 			courseCommentDAO.save(comment);
-			
-			course.deleteComment(data.commentID);			
-			courseDAO.save(course);			
 		}
 	}
 	
