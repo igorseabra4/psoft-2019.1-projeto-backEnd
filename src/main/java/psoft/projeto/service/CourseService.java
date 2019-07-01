@@ -149,7 +149,7 @@ public class CourseService {
 		comments.sort(new Comparator<CourseComment>() 
         {
 			@Override
-			public int compare(CourseComment arg0, CourseComment arg1) {
+			public int compare(CourseComment arg1, CourseComment arg0) {
 				return arg0.getDate().compareTo(arg1.getDate());
 			}
         });
