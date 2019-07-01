@@ -225,7 +225,7 @@ public class CourseService {
 				return arg1.getLikeCount() - arg0.getLikeCount();
 			}
         });
-				
+		
 		return all;
 	}
 
