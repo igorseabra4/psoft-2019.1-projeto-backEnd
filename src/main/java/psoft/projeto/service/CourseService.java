@@ -142,6 +142,8 @@ public class CourseService {
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
+		comment.setDateNow();
+		
 		course.addComment(comment);
 		courseDAO.save(course);
 	}

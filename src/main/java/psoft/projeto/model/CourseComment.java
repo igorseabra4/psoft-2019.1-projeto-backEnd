@@ -33,6 +33,10 @@ public class CourseComment {
 		return userID;
 	}
 	
+	public void setDateNow() {
+		this.date = new Date();
+	}
+	
 	public String getDate() {
 		return date.toString();
 	}
