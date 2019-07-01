@@ -58,7 +58,7 @@ public class UserLoginController {
 	}
 	
 	@RequestMapping(value = "/withID")
-	public ResponseEntity<List<String>> usersWithID(@RequestBody List<Long> userIDs) {
+	public ResponseEntity<List<String>> usersWithID(@RequestParam(name="ids", required=false, defaultValue="")  List<Long> userIDs) {
 		List<String> result = new ArrayList<String>(userIDs.size());
 		
 		for (Long l : userIDs) {
