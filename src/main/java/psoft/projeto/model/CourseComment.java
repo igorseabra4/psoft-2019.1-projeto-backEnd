@@ -14,6 +14,7 @@ public class CourseComment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	private Long userID;
 	private String userName;
 	private String comment;
 	private long parentCommentID;
@@ -23,7 +24,8 @@ public class CourseComment {
 	public CourseComment() {
 	}
 	
-	public CourseComment(String userName, String comment, Long parentCommentID) {
+	public CourseComment(Long userID, String userName, String comment, Long parentCommentID) {
+		this.userID = userID;
 		this.userName = userName;
 		this.comment = comment;
 		this.parentCommentID = parentCommentID;

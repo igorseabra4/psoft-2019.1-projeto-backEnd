@@ -171,7 +171,8 @@ public class CourseService {
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
-		CourseComment saved = courseCommentDAO.save(new CourseComment(comment.userName, comment.comment, comment.parentCommentID));
+		CourseComment saved = courseCommentDAO.save(
+				new CourseComment(comment.userID, comment.userName, comment.comment, comment.parentCommentID));
 		
 		course.addComment(saved.getID());
 		
