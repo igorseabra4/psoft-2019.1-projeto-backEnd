@@ -150,7 +150,7 @@ public class CourseService {
         {
 			@Override
 			public int compare(CourseComment arg1, CourseComment arg0) {
-				return arg0.getDate().compareTo(arg1.getDate());
+				return arg1.getDate().compareTo(arg0.getDate());
 			}
         });
 		
