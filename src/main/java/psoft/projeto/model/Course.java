@@ -19,12 +19,12 @@ public class Course {
 
 	private String name;
 	private ArrayList<Long> likedUserIDs;
-	private ArrayList<CourseComment> comments;
+	private ArrayList<Long> comments;
 	private HashMap<Long, Float> grades;
 	
 	public Course() {
 		likedUserIDs = new ArrayList<Long>();
-		comments = new ArrayList<CourseComment>();
+		comments = new ArrayList<Long>();
 		grades = new HashMap<Long, Float>();
 	}
 	
@@ -81,36 +81,18 @@ public class Course {
 		return add / grades.values().size();
 	}
 	
-	public void addComment(CourseComment comment) {
-		comments.add(comment);
+	public void addComment(Long commentID) {
+		comments.add(commentID);
 	}
 
-	public void deleteComment(DeleteCommentData data) {
-		for (CourseComment c : comments)
-			if (c.getID() == data.commentID && c.getUserID() == data.userID)
-				c.delete();
+	public void deleteComment(Long commentID) {
+		comments.remove(commentID);
 	}
 	
-	public ArrayList<CourseComment> getComments(){
+	public ArrayList<Long> getCommentsIDs(){
 		return comments;
 	}
-	
-	public void sortComments() {
-
-		comments.sort(new Comparator<CourseComment>() 
-        {
-			@Override
-			public int compare(CourseComment arg0, CourseComment arg1) {
-				return (int) (arg1.getParentCommentID() - arg0.getParentCommentID());
-			}
-        });
-	}
-	
-	public void emptyDeletedComments() {
-		for (CourseComment c : comments)
-			c.emptyIfDeleted();
-	}
-
+		
 	@Override
 	public int hashCode() {
 		final int prime = 31;

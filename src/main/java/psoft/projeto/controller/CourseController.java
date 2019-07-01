@@ -87,6 +87,16 @@ public class CourseController {
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/profile/{id}/comments")
+	public ResponseEntity<List<CourseComment>> getComments(@PathVariable Long id) throws CourseNotFoundException {
+		List<CourseComment> comments = courseService.findComments(id);
+		
+		if (comments == null)
+			throw new InternalError("Something went wrong");
+		
+		return new ResponseEntity<List<CourseComment>>(comments, HttpStatus.OK);
+	}
 	
 	@PutMapping(value = "/profile/{id}/comment")
 	public ResponseEntity<Boolean> addComment(@PathVariable Long id, @RequestBody CourseComment data) throws CourseNotFoundException {

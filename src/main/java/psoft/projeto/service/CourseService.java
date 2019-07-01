@@ -12,6 +12,7 @@ import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Service;
 
 import psoft.projeto.dao.CourseDAO;
+import psoft.projeto.dao.CourseCommentDAO;
 import psoft.projeto.exception.CourseNotFoundException;
 import psoft.projeto.model.Course;
 import psoft.projeto.model.CourseComment;
@@ -21,9 +22,11 @@ import psoft.projeto.service.helpers.DeleteCommentData;
 @Service
 public class CourseService {
 	private final CourseDAO courseDAO;
+	private final CourseCommentDAO courseCommentDAO;
 	
-	CourseService(CourseDAO courseDAO) {
+	CourseService(CourseDAO courseDAO, CourseCommentDAO courseCommentDAO) {
 		this.courseDAO = courseDAO;
+		this.courseCommentDAO = courseCommentDAO;
 		init();
 	}
 	
@@ -56,12 +59,7 @@ public class CourseService {
 	}
 
 	public Course findByID(Long id) {
-		Course c = courseDAO.findByID(id);
-
-		c.emptyDeletedComments();
-		c.sortComments();
-		
-		return c;
+		return courseDAO.findByID(id);
 	}
 
 	public List<CourseSimple> findAll() {
@@ -136,15 +134,48 @@ public class CourseService {
 		courseDAO.save(course);
 	}
 	
-	public void addComment(Long courseID, CourseComment comment) throws CourseNotFoundException {
+	public List<CourseComment> findComments(Long courseID) throws CourseNotFoundException {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
-		comment.setDateNow();
+		List<CourseComment> comments = new ArrayList<CourseComment>();
 		
-		course.addComment(comment);
+		for (Long l : course.getCommentsIDs())
+			comments.add(courseCommentDAO.findByID(l));
+		
+		comments.sort(new Comparator<CourseComment>() 
+        {
+			@Override
+			public int compare(CourseComment arg0, CourseComment arg1) {
+				return arg0.getDate().compareTo(arg1.getDate());
+			}
+        });
+		
+		comments.sort(new Comparator<CourseComment>() 
+        {
+			@Override
+			public int compare(CourseComment arg0, CourseComment arg1) {
+				return (int) (arg0.getParentCommentID() - arg1.getParentCommentID());
+			}
+        });
+		
+		return comments;
+	}
+	
+	public void addComment(Long courseID, CourseComment comment) throws CourseNotFoundException {
+		Course course = courseDAO.findByID(courseID);
+				
+		if (course == null)
+			throw new CourseNotFoundException("Disciplina nao encontrada");
+		
+		comment.setDateNow();
+
+		CourseComment saved = courseCommentDAO.save(comment);
+		
+		course.addComment(saved.getID());
+		
 		courseDAO.save(course);
 	}
 
@@ -154,19 +185,26 @@ public class CourseService {
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
-		course.deleteComment(data);
-		courseDAO.save(course);
+		if (course.getCommentsIDs().contains(data.commentID)) {
+			course.deleteComment(data.commentID);
+			
+			CourseComment comment = courseCommentDAO.findByID(data.commentID);
+			comment.delete();
+
+			courseDAO.save(course);
+			courseCommentDAO.save(comment);
+		}
 	}
 	
 	// returns list ordered by like count, then grade, then comment count.
 	public List<Course> findAllRank() {
 		List<Course> all = courseDAO.findAll();
-
+		
 		all.sort(new Comparator<Course>() 
         {
 			@Override
 			public int compare(Course arg0, Course arg1) {
-				return arg1.getComments().size() - arg0.getComments().size();
+				return arg1.getCommentsIDs().size() - arg0.getCommentsIDs().size();
 			}
         });
 		all.sort(new Comparator<Course>() 
@@ -183,10 +221,7 @@ public class CourseService {
 				return arg1.getLikeCount() - arg0.getLikeCount();
 			}
         });
-		
-		for (Course c : all)
-			c.emptyDeletedComments();
-		
+				
 		return all;
 	}
 }

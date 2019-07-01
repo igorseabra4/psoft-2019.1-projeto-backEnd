@@ -19,6 +19,9 @@ public class CourseComment {
 	private long parentCommentID;
 	private Date date;
 	private boolean deleted;
+
+	public CourseComment() {
+	}
 	
 	public CourseComment(Long userID, String comment, Long parentCommentID) {
 		this.userID = userID;
@@ -40,7 +43,11 @@ public class CourseComment {
 		this.date = new Date();
 	}
 	
-	public String getDate() {
+	public Date getDate() {
+		return date;
+	}
+	
+	public String getDateString() {
 		return date.toString();
 	}
 	
@@ -91,6 +98,11 @@ public class CourseComment {
 		if (userID != other.userID)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return id + " " + userID + " " + comment + " " + date.toString();
 	}
 	
 }
