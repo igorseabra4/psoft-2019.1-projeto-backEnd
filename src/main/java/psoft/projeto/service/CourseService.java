@@ -170,6 +170,13 @@ public class CourseService {
 		
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
+
+		if (comment.userName.isEmpty())
+			throw new IllegalArgumentException("Comentário precisa de nome de usuário");
+		if (comment.comment.isEmpty())
+			throw new IllegalArgumentException("Comentário não pode ser vazio");
+		if (comment.parentCommentID != -1 && !course.getCommentsIDs().contains(comment.parentCommentID))
+			throw new IllegalArgumentException("Comentário é filho de comentário inexistente");
 		
 		CourseComment saved = courseCommentDAO.save(
 				new CourseComment(comment.userID, comment.userName, comment.comment, comment.parentCommentID));
@@ -223,5 +230,20 @@ public class CourseService {
         });
 				
 		return all;
+	}
+
+	public void resetComments(Long id) throws CourseNotFoundException {
+		Course course = courseDAO.findByID(id);
+		
+		if (course == null)
+			throw new CourseNotFoundException("Disciplina nao encontrada");
+		
+		for (Long l : course.getCommentsIDs()) {
+			CourseComment c = courseCommentDAO.findByID(l);
+			
+			c.undelete();
+			
+			courseCommentDAO.save(c);
+		}
 	}
 }

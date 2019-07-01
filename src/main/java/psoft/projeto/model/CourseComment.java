@@ -64,6 +64,10 @@ public class CourseComment {
 	public void delete() {
 		deleted = true;
 	}
+
+	public void undelete() {
+		deleted = false;
+	}
 	
 	public boolean getDeleted() {
 		return deleted;
@@ -96,6 +100,5 @@ public class CourseComment {
 	@Override
 	public String toString() {
 		return id + " " + userName + " " + comment + " " + date.toString();
-	}
-	
+	}	
 }

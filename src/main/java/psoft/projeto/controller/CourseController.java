@@ -112,4 +112,11 @@ public class CourseController {
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+	
+	@PutMapping(value = "/profile/{id}/resetcomments")
+	public ResponseEntity<Boolean> resetComments(@PathVariable Long id) throws CourseNotFoundException {
+		courseService.resetComments(id);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
 }
