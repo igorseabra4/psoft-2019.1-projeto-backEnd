@@ -229,6 +229,23 @@ public class CourseService {
 		return all;
 	}
 
+	public void resetComments() {
+		for (CourseComment comment : courseCommentDAO.findAll()) {
+			boolean found = false;
+			
+			comment.undelete();
+			
+			for (Course course : courseDAO.findAll())
+				if (course.getCommentsIDs().contains(comment.getID())) {
+					found = true;
+					break;
+				}
+			
+			if (!found)
+				courseCommentDAO.delete(comment);
+		}
+	}
+
 	public void resetComments(Long id) throws CourseNotFoundException {
 		Course course = courseDAO.findByID(id);
 		
