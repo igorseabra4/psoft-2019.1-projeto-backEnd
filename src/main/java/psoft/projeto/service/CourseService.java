@@ -18,6 +18,7 @@ import psoft.projeto.model.Course;
 import psoft.projeto.model.CourseComment;
 import psoft.projeto.model.CourseSimple;
 import psoft.projeto.service.helpers.DeleteCommentData;
+import psoft.projeto.service.helpers.PutCommentData;
 
 @Service
 public class CourseService {
@@ -164,21 +165,19 @@ public class CourseService {
 		return comments;
 	}
 	
-	public void addComment(Long courseID, CourseComment comment) throws CourseNotFoundException {
+	public void addComment(Long courseID, PutCommentData comment) throws CourseNotFoundException {
 		Course course = courseDAO.findByID(courseID);
-				
+		
 		if (course == null)
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
-		comment.setDateNow();
-
-		CourseComment saved = courseCommentDAO.save(comment);
+		CourseComment saved = courseCommentDAO.save(new CourseComment(comment.userName, comment.comment, comment.parentCommentID));
 		
 		course.addComment(saved.getID());
 		
 		courseDAO.save(course);
 	}
-
+	
 	public void removeComment(Long courseID, DeleteCommentData data) throws CourseNotFoundException {
 		Course course = courseDAO.findByID(courseID);
 		

@@ -14,7 +14,7 @@ public class CourseComment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	private long userID;
+	private String user;
 	private String comment;
 	private long parentCommentID;
 	private Date date;
@@ -23,8 +23,8 @@ public class CourseComment {
 	public CourseComment() {
 	}
 	
-	public CourseComment(Long userID, String comment, Long parentCommentID) {
-		this.userID = userID;
+	public CourseComment(String user, String comment, Long parentCommentID) {
+		this.user = user;
 		this.comment = comment;
 		this.parentCommentID = parentCommentID;
 		this.date = new Date();
@@ -35,12 +35,8 @@ public class CourseComment {
 		return id;
 	}
 	
-	public long getUserID() {
-		return userID;
-	}
-	
-	public void setDateNow() {
-		this.date = new Date();
+	public String getUser() {
+		return user;
 	}
 	
 	public Date getDate() {
@@ -71,15 +67,6 @@ public class CourseComment {
 		if (deleted)
 			comment = "";
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
-		result = prime * result + (int) (userID ^ (userID >>> 32));
-		return result;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -95,14 +82,14 @@ public class CourseComment {
 				return false;
 		} else if (!comment.equals(other.comment))
 			return false;
-		if (userID != other.userID)
+		if (user != other.user)
 			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return id + " " + userID + " " + comment + " " + date.toString();
+		return id + " " + user + " " + comment + " " + date.toString();
 	}
 	
 }

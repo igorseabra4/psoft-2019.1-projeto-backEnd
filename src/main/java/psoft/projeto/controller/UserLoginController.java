@@ -58,16 +58,13 @@ public class UserLoginController {
 	}
 	
 	@RequestMapping(value = "/withID")
-	public ResponseEntity<List<String>> usersWithID(@RequestParam(name="ids", required=false, defaultValue="")  List<Long> userIDs) {
-		List<String> result = new ArrayList<String>(userIDs.size());
+	public ResponseEntity<String> userWithID(@RequestParam(name="id", required=true) Long userID) throws UserNotFoundException {
+		Usuario user = userService.findByID(userID);
 		
-		for (Long l : userIDs) {
-			Usuario user = userService.findByID(l);
-			if (user != null)
-				result.add(user.getName());
-		}
-		
-		return new ResponseEntity<List<String>>(result, HttpStatus.OK);
+		if (user == null)
+			throw new UserNotFoundException("Não foi encontrado usuário especificado. Por favor, insira um ID válido.");
+				
+		return new ResponseEntity<String>(user.getName(), HttpStatus.OK);
 	}
 	
 	private class LoginResponse {

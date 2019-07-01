@@ -13,6 +13,7 @@ import psoft.projeto.model.CourseSimple;
 import psoft.projeto.service.CourseService;
 import psoft.projeto.service.helpers.DeleteCommentData;
 import psoft.projeto.service.helpers.GradeData;
+import psoft.projeto.service.helpers.PutCommentData;
 
 @RestController
 @RequestMapping({"/v1/courses"})
@@ -99,7 +100,7 @@ public class CourseController {
 	}
 	
 	@PutMapping(value = "/profile/{id}/comment")
-	public ResponseEntity<Boolean> addComment(@PathVariable Long id, @RequestBody CourseComment data) throws CourseNotFoundException {
+	public ResponseEntity<Boolean> addComment(@PathVariable Long id, @RequestBody PutCommentData data) throws CourseNotFoundException {
 		courseService.addComment(id, data);
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
