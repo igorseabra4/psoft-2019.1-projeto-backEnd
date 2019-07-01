@@ -243,6 +243,8 @@ public class CourseService {
 			
 			if (!found)
 				courseCommentDAO.delete(comment);
+			else
+				courseCommentDAO.save(comment);
 		}
 	}
 
