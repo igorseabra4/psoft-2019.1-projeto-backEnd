@@ -193,13 +193,13 @@ public class CourseService {
 			throw new CourseNotFoundException("Disciplina nao encontrada");
 		
 		if (course.getCommentsIDs().contains(data.commentID)) {
-			course.deleteComment(data.commentID);
-			
 			CourseComment comment = courseCommentDAO.findByID(data.commentID);
-			comment.delete();
 
-			courseDAO.save(course);
+			comment.delete();
 			courseCommentDAO.save(comment);
+			
+			course.deleteComment(data.commentID);			
+			courseDAO.save(course);			
 		}
 	}
 	
