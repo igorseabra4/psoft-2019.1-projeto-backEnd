@@ -37,6 +37,10 @@ public class CourseComment {
 		return id;
 	}
 	
+	public long getUserID() {
+		return userID;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
