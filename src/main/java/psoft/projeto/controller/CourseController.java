@@ -22,6 +22,8 @@ public class CourseController {
 		return new String[] {
 				"/v1/courses/profile/*",
 				"/v1/courses/rank",
+				"/v1/courses/comments",
+				"/v1/courses/resetcomments",
 		};
 	}
 	
@@ -113,6 +115,16 @@ public class CourseController {
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/comments")
+	public ResponseEntity<List<CourseComment>> findAllComments() {
+		List<CourseComment> courses = courseService.findAllComments();
+		
+		if (courses == null)
+			throw new InternalError("Something went wrong");
+		
+		return new ResponseEntity<List<CourseComment>>(courses, HttpStatus.OK);
+	}
+	
 	@PutMapping(value = "/resetcomments")
 	public ResponseEntity<Boolean> resetAllComments() {
 		courseService.resetComments();

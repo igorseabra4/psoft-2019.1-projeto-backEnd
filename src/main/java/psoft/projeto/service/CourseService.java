@@ -229,6 +229,10 @@ public class CourseService {
 		return all;
 	}
 
+	public List<CourseComment> findAllComments() {
+		return courseCommentDAO.findAll();
+	}
+	
 	public void resetComments() {
 		for (CourseComment comment : courseCommentDAO.findAll()) {
 			boolean found = false;
