@@ -84,10 +84,19 @@ public class CourseService {
 		List<Course> all = courseDAO.findAll();
 		List<CourseSimple> courses = new ArrayList<CourseSimple>(all.size());
 		
+		int number = -1;
+        boolean numeric = true;
+        
+        try {
+        	number = Integer.parseInt(substring);
+        } catch (NumberFormatException e) {
+            numeric = false;
+        }
+        
 		for (Course c : all)
-			if (normalize(c.getName()).contains(normalize(substring)))
+			if ((numeric && number == c.getId()) || normalize(c.getName()).contains(normalize(substring)))
 				courses.add(new CourseSimple(c.getId(), c.getName()));
-
+		
 		courses.sort(new Comparator<CourseSimple>() 
         {
 			@Override
