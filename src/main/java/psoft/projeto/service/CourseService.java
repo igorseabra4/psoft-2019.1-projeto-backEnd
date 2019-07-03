@@ -118,7 +118,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 		
 		course.addLike(userID);
 		courseDAO.save(course);
@@ -128,7 +128,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 		
 		course.removeLike(userID);
 		courseDAO.save(course);
@@ -138,7 +138,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 		
 		course.addGrade(userID, grade);
 		courseDAO.save(course);
@@ -148,7 +148,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 		
 		List<CourseComment> comments = new ArrayList<CourseComment>();
 		
@@ -178,7 +178,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 
 		if (comment.userName.isEmpty())
 			throw new IllegalArgumentException("Comentário precisa de nome de usuário");
@@ -199,7 +199,7 @@ public class CourseService {
 		Course course = courseDAO.findByID(courseID);
 		
 		if (course == null)
-			throw new CourseNotFoundException("Disciplina nao encontrada");
+			throw new CourseNotFoundException("Disciplina não encontrada");
 		
 		if (course.getCommentsIDs().contains(data.commentID)) {
 			CourseComment comment = courseCommentDAO.findByID(data.commentID);

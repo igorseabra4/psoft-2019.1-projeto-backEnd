@@ -61,7 +61,7 @@ public class UserLoginController {
 		
 		if (user == null)
 			throw new UserNotFoundException("Não foi encontrado usuário especificado. Por favor, insira um ID válido.");
-				
+		
 		return new ResponseEntity<String>(user.getName(), HttpStatus.OK);
 	}
 	
